@@ -1,2 +1,41 @@
 {% extends "base.html" %}
 {% load static %}
+{% block title %}Главная{% endblock %}
+{% block content %}
+    <div class="row align-items-center">
+        <div class="col-md-12">
+            <h1 class="pb-2 mb-0">Калькуляция доходов и рачет статистики</h1>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-12 col-md-6">
+          <h2>Последний месяц</h2>
+          {% if 1 %}
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">Заказы: {{ last_orders }}</li>
+              <li class="list-group-item">Самый популярный тариф: {{ last_tariff }}</li>
+              <li class="list-group-item">Самый востребованный размер ячеек: {{ last_size }}</li>
+              <li class="list-group-item">Больше всего заявок на период: от {{ last_period_mn }} до {{ last_period_mx }} дней</li>
+              <li class="list-group-item">Общая прибыль составила: {{ last_cost }}</li>
+            </ul>
+          {% else %}
+            <p>За последний месяц заказов не было.</p>
+          {% endif %}
+        </div>
+
+        <div class="col-12 col-md-6">
+            <h2>Все время</h2>
+            {% if 1 %}
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">Заказы: {{ all_orders }}</li>
+                <li class="list-group-item">Самый популярный тариф: {{ all_tariff }}</li>
+                <li class="list-group-item">Самый востребованный размер ячеек: {{ all_size }}</li>
+                <li class="list-group-item">Больше всего заявок на период: от {{ all_period_mn }} до {{ pop_period_mx }} дней</li>
+                <li class="list-group-item">Общая прибыль составила: {{ all_cost }}</li>
+              </ul>
+            {% else %}
+              <p>Заказов не зарегистрировано.</p>
+            {% endif %}
+          </div>
+{% endblock %}

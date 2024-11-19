@@ -23,10 +23,7 @@ class CellsDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         my_cell = self.object
-        my_order = Orders.objects.filter(cell=my_cell).order_by('-end').first() 
-        if my_order:
-            context['tariff'] = my_order.tariff
-            context['client'] = my_order.client
+        my_order = Orders.objects.select_related('tariff').select_related('client').filter(cell=my_cell).order_by('-end').first()
         context['order'] = my_order
         return context
 
