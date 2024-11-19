@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load django_bootstrap5 %}
+
+{% block title %}
+  Настройка тарифа
+{% endblock %}
+
+{% block content %}
+  {% with data=form.instance %}
+    {% if '/edit/' in request.path %}
+    <h2>Редактировать тариф {{ data.title }}</h2>
+    {% elif "/delete/" in request.path %}
+      <h2>Удалить тариф {{ object.title }}</h2>
+    {% else %}
+      <h2>Зарегистрировать тариф</h2>
+    {% endif %}
+    <div class="card col-4">
+      <div class="card-header">
+        Настройка тарифа
+      </div>
+      <div class="card-body">
+        <form method="post">
+          {% csrf_token %}
+        {% if not "/delete/" in request.path %}
+          {% bootstrap_form form %}
+        {% else %}
+          <p>Название: {{ object.title }}</p>
+          <p>Размер ячейки: {{ object.size_cell }}</p>
+          <p>Период: {{ object.period }} дней</p>
+          <p>Стоимость: {{ object.cost }} руб.</p>
+        {% endif %}
+          {% bootstrap_button button_type="submit" content="Готово" %}
+        </form>
+      </div>
+    </div>
+    {% if form.is_valid %}
+      <h2>Тариф {{ data.title }} зарегистрирован в системе!</h2>
+    {% endif %}
+  {% endwith %}
+  <hr>
+  <div>
+    <a href="{% url 'tariffs:list' %}">Список всех тарифов</a>
+  </div>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load django_bootstrap5 %}
+
+{% block title %}
+  Настройка ячейки
+{% endblock %}
+
+{% block content %}
+  {% with data=form.instance %}
+    <!-- Здесь должен быть заголовок в теге h2;
+      содержимое заголовка должно зависеть
+      от выполняемого действия -->
+    {% if '/edit/' in request.path %}
+    <!-- Вывести заголовок и номер записи. -->
+    <h2>Редактировать ячейку {{ data.number }}</h2>
+{% elif "/delete/" in request.path %}
+      <h2>Удалить ячейку {{ object.number }}</h2>
+  {% else %}
+    <h2>Зарегистрировать ячейку</h2>
+  {% endif %}
+    <div class="card col-4">
+      <div class="card-header">
+        Настройка ячейки
+      </div>
+      <div class="card-body">
+        <form method="post">
+          {% csrf_token %}
+          <!-- В зависимости от выполняемого действия здесь должна
+            отображаться либо форма, либо данные из заявки в тегах p -->
+        {% if not "/delete/" in request.path %}
+          {% bootstrap_form form %}
+        {% else %}
+          <p>Номер: {{ object.number }}</p>
+          <p>Размер: {{ object.size }}</p>
+        {% endif %}
+          {% bootstrap_button button_type="submit" content="Готово" %}
+        </form>
+      </div>
+    </div>
+    {% if form.is_valid %}
+      <h2>Ячейка {{ data.title }} зарегистрирована в системе!</h2>
+    {% endif %}
+  {% endwith %}
+  <hr>
+  <div>
+    <a href="{% url 'cells:list' %}">Список всех ячеек</a>
+  </div>
+{% endblock %}

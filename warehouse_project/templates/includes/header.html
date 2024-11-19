@@ -1,0 +1,67 @@
+{% load static %}
+<header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm">
+    <div class="container">
+      <div 
+        class="navbar-toggler" 
+        type="button" 
+        data-toggle="collapse" 
+        data-target="#navbarNav" 
+        aria-controls="navbarNav" 
+        aria-expanded="false" 
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </div>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        {% with request.resolver_match.view_name as view_name %}            
+        <ul class="nav nav-pills">
+          <li class="nav-item">              
+            <a
+              class="nav-link {% if view_name == 'homepage:index' %} active {% endif %}" 
+              href="{% url 'homepage:index' %}"
+              >
+              Главная 
+            </a> 
+          </li>
+          <li class="nav-item">
+            <a 
+              class="nav-link {% if view_name == 'cells:list' %} active {% endif %}" 
+              href="{% url 'cells:list' %}"
+              >
+              Ячейки
+            </a> 
+          </li>
+          <li class="nav-item">
+            <a 
+              class="nav-link {% if view_name == 'clients:list' %} active {% endif %}" 
+              href="{% url 'clients:list' %}"
+              >
+              Клиенты
+            </a> 
+          </li>
+          <li class="nav-item">
+            <a 
+              class="nav-link {% if view_name == 'orders:list' %} active {% endif %}" 
+              href="{% url 'orders:list' %}"
+              >
+              Заказы
+            </a> 
+          </li>
+          <li class="nav-item">
+            <a 
+              class="nav-link {% if view_name == 'tariffs:list' %} active {% endif %}" 
+              href="{% url 'tariffs:list' %}"
+              >
+              Тарифы
+            </a> 
+          </li>
+        </ul>
+        {% endwith %}
+      </div> 
+      <a class="navbar-brand" href="{% url 'homepage:index' %}">
+        <img src="{% static 'img/logo.png' %}" height="50" class="d-inline-block align-top" alt="">            
+      </a>         
+    </div>
+  </nav>
+</header>

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+Клиент {{ client.FIO }}
+{% endblock %}
+
+{% block content %}
+  <div class="row align-items-center">
+    <div class="col-md-8">
+      <h1 class="pb-2 mb-0">Клиент {{ client.FIO }}</h1>
+    </div>
+    <div class="col-md-2 text-right">
+        <a href="{% url 'clients:edit' client.id %}" class="btn btn-primary">Редактировать клиента</a>
+    </div>
+    <div class="col-md-2 text-right">
+        <a href="{% url 'clients:delete' client.id %}" class="btn btn-primary">Удалить клиента</a>
+    </div>
+  </div>
+  
+  <div class="row mt-3">
+    <div class="col-12 col-md-6">
+      <h2>Последний заказ</h2>
+      {% if order %}
+        <ul class="list-group list-group-flush">
+        <li class="list-group-item">Ячейка: {% if cell %}{{ cell.number }}{% else %} ---{% endif %}</li>
+        <li class="list-group-item">Размер: {% if cell %}{{ cell.size }}{% else %} ---{% endif %}</li>
+        <li class="list-group-item">Тариф: {% if tariff %}{{ tariff.title }}{% else %} ---{% endif %}</li>
+          <li class="list-group-item">Длительность: {{ order.duration }} дней</li>
+          <li class="list-group-item">Дата начала: {{ order.start|date:"d.M.y" }}</li>
+          <li class="list-group-item">Дата завершения: {{ order.end|date:"d.M.y" }}</li>
+          <li class="list-group-item">Расчетная цена: {{ order.prise|floatformat:2 }}</li>
+          <li class="list-group-item">Перепись содержимого: {% if order.enumeration %}{{ order.enumeration|slice:"255"|escape }}{% else %} ---{% endif %}</li>
+        </ul>
+      {% else %}
+        <p>Клиент не имеет заказов.</p>
+      {% endif %}
+    </div>
+
+    <div class="col-12 col-md-6">
+      <h2>Основная информация</h2>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">ФИО: {{ client.FIO }}</li>
+        <li class="list-group-item">Почта: {{ client.email }}</li>
+      </ul>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+  Список тарифов
+{% endblock %}
+
+{% block content %}
+  <h1 class="pb-2 mb-0">Список тарифов</h1>
+  
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Название</th>
+            <th scope="col">Размер ячейки</th>
+            <th scope="col">Длительность</th>
+            <th scope="col">Стоимость</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for tariff in tariffs_list %}
+            <tr>
+              <td><a href="{% url 'tariffs:detail' tariff.id %}">{{ tariff.title }}</a></td>
+              <td>{{ tariff.size_cell }}</td>
+              <td>{{ tariff.period }} дней</td>
+              <td>{{ tariff.cost|floatformat:2 }} {{ tariff.cost.currency }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}

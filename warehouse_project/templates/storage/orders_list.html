@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+  Список заказов
+{% endblock %}
+
+{% block content %}
+  <h1 class="pb-2 mb-0">Список заказов</h1>
+  
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Дата начала</th>
+            <th scope="col">Длительность</th>
+            <th scope="col">Дата завершения</th>
+            <th scope="col">Цена</th>
+            <th scope="col">Перепись</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in orders_list %}
+            <tr>
+              <td><a href="{% url 'orders:detail' order.id %}">{{ order.start|date:"d.M.y" }}</a></td>
+              <td>{{ order.duration }} дней</td>
+              <td>{{ order.end|date:"d.M.y" }}</td>
+              <td>{{ order.prise|floatformat:2 }} {{ order.tariff.cost.currency }}</td>
+              <td>{{ order.enumeration|slice:"3" }}...</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}
