@@ -1,0 +1,40 @@
+-- Заполнение таблицы тарифов
+DO $$
+DECLARE
+  i INT;
+  ListSizes TEXT[] := ARRAY['Small','Small','Small','Medium','Medium','Medium','Large','Large','Large'];
+  ListName TEXT[] := ARRAY['MiniS','StandartS','MaxyS','MiniM','StandartM','MaxyM','MiniL','StandartL','MaxyL'];
+  ListPerion INT[] := ARRAY[1,7,30,1,7,30,1,7,30];
+  ListCost INT[] := ARRAY[100,95*7,90*30,500,500*0.95*7,500*0.9*30,1000,950*7,900*30];
+BEGIN
+  FOR i IN 1..9 LOOP
+    INSERT INTO storage_tariffs(title,size_cell,"period","cost")
+    VALUES (ListName[i], ListSizes[i], ListPerion[i], ListCost[i]);
+  END LOOP;
+END $$;
+
+-- Заполнение таблицы ячеек
+DO $$
+DECLARE
+    i INT;
+    letters TEXT := 'ABCDEFGHIJ';
+    sizes TEXT[] := ARRAY['Small','Small', 'Medium','Medium','Medium','Medium', 'Large', 'Large', 'Large', 'Large'];
+BEGIN
+    FOR i IN 0..49 LOOP
+        INSERT INTO storage_cells ("number", "size")
+        VALUES (
+            SUBSTR(letters, (i / 10)+1, 1) || (i % 10), -- A0, A1, ..., J9
+            sizes[(i % 10) + 1] -- Small, Medium, Large
+        );
+    END LOOP;
+END $$;
+
+-- Заполнение таблицы клиентов
+INSERT INTO storage_clients("FIO",email)
+SELECT 
+  (ARRAY['Соболев','Чернышев','Большаков','Пономарев','Логинов','Тихонов','Агафонов','Соловьев','Ильин','Вавилов'])[floor(random()*10)+1] || ' ' ||
+  (ARRAY['Семён','Фёдор','Степан','Виктор','Демид','Тимофей','Билал','Алексей','Ибрагим','Данил'])[floor(random()*10)+1] || ' ' ||
+  (ARRAY['Кириллович','Александрович','Иванович','Тимофеевич','Викторович','Платонович','Тимурович','Егорович','Никитич','Дмитриевич', ' '])[floor(random()*11)+1] AS "FIO",
+  chr((65+floor(random()*26))::INT)||chr((97+floor(random()*26))::INT)||chr((97+floor(random()*26))::INT)||chr((97+floor(random()*26))::INT)||floor(random()*10)||floor(random()*10)||'@mpei.ru' AS email
+FROM generate_series(1,100);  
+

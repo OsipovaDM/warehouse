@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.core.validators import (
     RegexValidator, MaxValueValidator, MinValueValidator, ValidationError
 )
+from django.db.models import Func
 
 
 class Tariffs(models.Model):
@@ -83,7 +84,7 @@ class Clients(models.Model):
     )
     email = models.EmailField(
         'Почта',
-        unique=True
+        unique=True,
     )
 
     class Meta:
@@ -163,3 +164,8 @@ class Orders(models.Model):
 
     def __str__(self):
         return self.cell.number + ' -- ' + self.start.strftime('%d-%m-%Y')
+
+
+class AllClients(Func):
+    function = 'all_clients'
+    template = '%(function)()'
