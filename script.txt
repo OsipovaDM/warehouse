@@ -38,3 +38,37 @@ SELECT
   chr((65+floor(random()*26))::INT)||chr((97+floor(random()*26))::INT)||chr((97+floor(random()*26))::INT)||chr((97+floor(random()*26))::INT)||floor(random()*10)||floor(random()*10)||'@mpei.ru' AS email
 FROM generate_series(1,100);  
 
+--Заполнение таблицы заказов
+DO $$
+DECLARE
+	DAYS INT[] := ARRAY[1,7,30];
+	ITEMS TEXT[] := ARRAY['Кресло','Стол','Диван','Шкаф','Тумбочка','Полка','Кровать','Ковёр','Зеркало','Комод','Холодильник','Стиральная машина','Микроволновка','Плита','Телевизор','Пылесос','Чайник','Кофеварка','Фен','Утюг'];
+	ListCost INT[] := ARRAY[100,95*7,90*30,500,500*0.95*7,500*0.9*30,1000,950*7,900*30];
+	RandDate date;
+	RightNum int;
+	n INT;
+	gs INT;
+BEGIN
+	for n in 1..50 loop
+		for gs in 1..5 loop
+			select into RightNum
+			case
+				when mod(n,10) in (1,2) then mod(gs,3) + 1
+				when mod(n,10) in (3,4,5,6) then mod(gs,3) + 4
+				when mod(n,10) in (7,8,9,0) then mod(gs,3) + 7
+			end;
+			select CURRENT_DATE - (FLOOR(RANDOM() * 365 + 1) * INTERVAL '1 day') into RandDate;
+			INSERT INTO storage_orders(duration, enumeration, prise, cell_id, client_id, tariff_id, "start", "end")
+			SELECT 
+				DAYS[mod(gs,3) + 1] * (mod(gs,4) + 1),
+				ITEMS[mod(gs*n,20) + 1] || ', ' || ITEMS[mod(gs*n,7) + 5],
+				ListCost[RightNum],
+				n,
+				(SELECT id FROM storage_clients ORDER BY RANDOM() LIMIT 1),
+				RightNum,
+				RandDate,
+				RandDate + (mod(gs,3) + 1 * (mod(gs,4) + 1)) * INTERVAL '1 day'
+			;
+		end loop;
+	end loop;
+END$$;

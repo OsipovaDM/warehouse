@@ -13,17 +13,10 @@ def get_client_count():
         user="postgres",
         password="sua077m"
     )
-
     cursor = connection.cursor()
-
-    # Выполнение SQL-запроса
     cursor.execute("SELECT all_clients();")
-
-    # Получение результата
     result = cursor.fetchone()
-
     connection.close()
-
     if result:
         return result[0]
     else:

@@ -10,7 +10,7 @@
     {% if '/edit/' in request.path %}
     <h2>Редактировать клиента {{ data.FIO }}</h2>
     {% elif "/delete/" in request.path %}
-      <h2>Удалить клиента {{ object.FIO }}</h2>
+      <h2>Удалить клиента {{ data.FIO }}</h2>
     {% else %}
       <h2>Зарегистрировать клиента</h2>
     {% endif %}
@@ -24,8 +24,8 @@
           {% if not "/delete/" in request.path %}
             {% bootstrap_form form %}
           {% else %}
-            <p>ФИО: {{ object.FIO }}</p>
-            <p>Почта: {{ object.email }}</p>
+            <p>ФИО: {{ data.FIO }}</p>
+            <p>Почта: {{ data.email }}</p>
           {% endif %}
           {% bootstrap_button button_type="submit" content="Готово" %}
         </form>

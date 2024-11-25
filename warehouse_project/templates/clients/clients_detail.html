@@ -7,7 +7,7 @@
 {% block content %}
   <div class="row align-items-center">
     <div class="col-md-8">
-      <h1 class="pb-2 mb-0">Клиент {{ client.FIO }}</h1>
+      <h1 class="pb-2 mb-0">{{ client.FIO }}</h1>
     </div>
     <div class="col-md-2 text-right">
         <a href="{% url 'clients:edit' client.id %}" class="btn btn-primary">Редактировать клиента</a>

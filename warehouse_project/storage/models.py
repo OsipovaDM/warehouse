@@ -164,8 +164,3 @@ class Orders(models.Model):
 
     def __str__(self):
         return self.cell.number + ' -- ' + self.start.strftime('%d-%m-%Y')
-
-
-class AllClients(Func):
-    function = 'all_clients'
-    template = '%(function)()'
