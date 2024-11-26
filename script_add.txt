@@ -62,7 +62,7 @@ BEGIN
 			SELECT 
 				DAYS[mod(gs,3) + 1] * (mod(gs,4) + 1),
 				ITEMS[mod(gs*n,20) + 1] || ', ' || ITEMS[mod(gs*n,7) + 5],
-				ListCost[RightNum],
+				ListCost[RightNum] * (mod(gs,4) + 1),
 				n,
 				(SELECT id FROM storage_clients ORDER BY RANDOM() LIMIT 1),
 				RightNum,

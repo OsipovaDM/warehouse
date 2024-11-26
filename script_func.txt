@@ -1,0 +1,85 @@
+--создание таблицы клиентов
+CREATE TABLE storage_clients (
+  id SERIAL PRIMARY KEY,
+  "FIO" VARCHAR(255) NOT NULL,
+  Email VARCHAR(255) UNIQUE,
+  CHECK (email ~* '@mpei\.ru$')
+);
+
+--создание процедуры добавления клиента
+CREATE OR REPLACE PROCEDURE insert_clients(fio VARCHAR(255), email VARCHAR(255))
+AS $$
+BEGIN 
+	INSERT INTO storage_clients ("FIO", email)
+	VALUES(fio, email);
+END;
+$$ LANGUAGE plpgsql;
+
+--создание процедуры обновления данных клиента
+CREATE OR REPLACE PROCEDURE update_clients(pk int, new_fio VARCHAR(255), new_email VARCHAR(255))
+AS $$
+BEGIN 
+	UPDATE storage_clients
+	SET "FIO" = new_fio,
+		email = new_email
+	WHERE id = pk;
+END;
+$$ LANGUAGE plpgsql;
+
+--создание табличной функции вывода клиентов
+CREATE OR REPLACE FUNCTION select_clients()
+RETURNS TABLE(id bigint, "FIO" VARCHAR(255), email VARCHAR(255)) AS $$
+BEGIN 
+	RETURN QUERY
+    SELECT c.id, c."FIO", c.email FROM storage_clients c;
+END;
+$$ LANGUAGE plpgsql;
+
+--создание процедуры удаления клиента
+CREATE OR REPLACE PROCEDURE delete_clients(pk int)
+AS $$
+BEGIN 
+	DELETE FROM storage_clients
+	WHERE id = pk;
+END;
+$$ LANGUAGE plpgsql;
+
+--создание скалярной функции подсчет кол-ва всех клиентов
+CREATE OR REPLACE FUNCTION all_clients()
+RETURNS int AS $$
+DECLARE
+	result int;
+BEGIN 
+	SELECT INTO result COUNT(*) FROM storage_clients;
+	RETURN result;
+END;
+$$ LANGUAGE plpgsql;
+
+--создание представления статистика
+CREATE OR REPLACE VIEW storage_statistics AS
+SELECT 
+	cl.number, cl.size, 
+	ct."FIO", ct.email, 
+	t.title, t.size_cell, t.period, t.cost, 
+	o.duration, o.enumeration, o.prise, o.start, o.end
+FROM storage_orders o
+JOIN storage_tariffs t ON t.id = o.tariff_id
+JOIN storage_cells cl ON cl.id = o.cell_id
+JOIN storage_clients ct ON ct.id = o.client_id;
+
+--создание триггера перед удалением клиента
+CREATE OR REPLACE FUNCTION client_deletion() 
+RETURNS TRIGGER AS $$
+BEGIN
+	UPDATE storage_clients 
+    SET "FIO" = 'Клиент удален',
+		email = null
+    WHERE id = OLD.id;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER insteard_client_delete
+BEFORE DELETE ON storage_clients
+FOR EACH ROW
+EXECUTE FUNCTION client_deletion();
