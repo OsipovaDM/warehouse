@@ -38,8 +38,6 @@ def index(request):
             'all_orders': all_orders.count(),
             'all_tariff': all_orders.values('tariff__title').annotate(count=Count('id')).order_by('-count')[0]['tariff__title'],
             'all_size': all_orders.values('tariff__size_cell').annotate(count=Count('id')).order_by('-count')[0]['tariff__size_cell'],
-            'all_period_mn': 1,
-            'all_period_mx': 1,
             'all_cost': all_orders.aggregate(Sum('prise'))['prise__sum'],
         }
     last_orders = all_orders.filter(start__gte=thirty_days_ago)
@@ -48,8 +46,6 @@ def index(request):
             'last_orders': last_orders.count(),
             'last_tariff': last_orders.values('tariff__title').annotate(count=Count('id')).order_by('-count')[0]['tariff__title'],
             'last_size': last_orders.values('tariff__size_cell').annotate(count=Count('id')).order_by('-count')[0]['tariff__size_cell'],
-            'last_period_mn': 1,
-            'last_period_mx': 1,
             'last_cost': last_orders.aggregate(Sum('prise'))['prise__sum'],
         }
     return render(request, template_name, context)

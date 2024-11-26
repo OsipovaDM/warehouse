@@ -13,6 +13,7 @@ class OrdersMixin:
 
 class OrdersCreateView(OrdersMixin, CreateView):
     # form_class = OrdersForm
+    fields = 'client', 'cell', 'tariff', 'duration', 'enumeration', 'start'
     pass
 
 

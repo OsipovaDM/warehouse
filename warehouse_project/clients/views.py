@@ -17,7 +17,7 @@ def detail(request, pk=None):
                    c.id, c."FIO", c.email,
                    s.number, s.size, s.title, s.duration,
                    s.start, s.end, s.prise, s.enumeration
-                   FROM storage_statistics s 
+                   FROM storage_statistics s
                    JOIN storage_clients c
                    ON c.email = s.email
                    WHERE id = {pk}
@@ -78,7 +78,6 @@ def delete_client(request, pk):
 
 
 def list(request):
-    # clients_list = Clients.objects.order_by('id')  # Здесь должен быть вызов функции из БД
     connection = psycopg2.connect(
         host="localhost",
         database="warehouse",

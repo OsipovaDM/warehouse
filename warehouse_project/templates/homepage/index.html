@@ -16,7 +16,6 @@
               <li class="list-group-item">Заказы: {{ last_orders }}</li>
               <li class="list-group-item">Самый популярный тариф: {{ last_tariff }}</li>
               <li class="list-group-item">Самый востребованный размер ячеек: {{ last_size }}</li>
-              <li class="list-group-item">Больше всего заявок на период: от {{ last_period_mn }} до {{ last_period_mx }} дней</li>
               <li class="list-group-item">Общая прибыль составила: {{ last_cost }}</li>
             </ul>
           {% else %}
@@ -31,7 +30,6 @@
                 <li class="list-group-item">Заказы: {{ all_orders }}</li>
                 <li class="list-group-item">Самый популярный тариф: {{ all_tariff }}</li>
                 <li class="list-group-item">Самый востребованный размер ячеек: {{ all_size }}</li>
-                <li class="list-group-item">Больше всего заявок на период: от {{ all_period_mn }} до {{ all_period_mx }} дней</li>
                 <li class="list-group-item">Общая прибыль составила: {{ all_cost }}</li>
                 <li class="list-group-item">Всего клиентов: {{ client_count }}</li>
               </ul>

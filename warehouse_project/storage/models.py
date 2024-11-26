@@ -85,6 +85,7 @@ class Clients(models.Model):
     email = models.EmailField(
         'Почта',
         unique=True,
+        null=True,
     )
 
     class Meta:
@@ -92,7 +93,7 @@ class Clients(models.Model):
         verbose_name_plural = 'Клиенты'
 
     def __str__(self):
-        return self.email
+        return self.FIO
 
 
 class Orders(models.Model):

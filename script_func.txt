@@ -50,7 +50,9 @@ RETURNS int AS $$
 DECLARE
 	result int;
 BEGIN 
-	SELECT INTO result COUNT(*) FROM storage_clients;
+	SELECT INTO result COUNT(*) 
+	FROM storage_clients
+	WHERE email IS NOT NULL;
 	RETURN result;
 END;
 $$ LANGUAGE plpgsql;
