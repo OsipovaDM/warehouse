@@ -5,38 +5,42 @@
 {% endblock %}
 
 {% block content %}
-  <div class="row align-items-center">
-    <div class="col-md-8">
-      <h1 class="pb-2 mb-0">Заказ {{ orders.id }}</h1>
+{% if user.is_authenticated %}
+    <div class="row align-items-center">
+      <div class="col-md-8">
+        <h1 class="pb-2 mb-0">Заказ {{ orders.id }}</h1>
+      </div>
+      <div class="col-md-2 text-right">
+        <a href="{% url 'orders:edit' orders.id %}" class="btn btn-primary">Редактировать заказ</a>
+      </div>
+      <div class="col-md-2 text-right">
+        <a href="{% url 'orders:delete' orders.id %}" class="btn btn-primary">Удалить заказ</a>
+      </div>
     </div>
-    <div class="col-md-2 text-right">
-      <a href="{% url 'orders:edit' orders.id %}" class="btn btn-primary">Редактировать заказ</a>
-    </div>
-    <div class="col-md-2 text-right">
-      <a href="{% url 'orders:delete' orders.id %}" class="btn btn-primary">Удалить заказ</a>
-    </div>
-  </div>
-  
-  <div class="row mt-3">
-    <div class="col-12 col-md-6">
-      <h2>Информация о заказе</h2>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item">Клиент: {% if client %}{{ client.FIO }}{% else %} ---{% endif %}</li>
-        <li class="list-group-item">Ячейка: {% if cell %}{{ cell.number }} {{ cell.size }}{% else %} ---{% endif %}</li>
-        <li class="list-group-item">Тариф: {% if tariff %}{{ tariff.title }}{% else %} ---{% endif %}</li>
-        <li class="list-group-item">Длительность: {{ orders.duration }} дней</li>
-        <li class="list-group-item">Расчетная цена: {{ orders.prise|floatformat:2 }}</li>
-        <li class="list-group-item">Перепись содержимого: {% if orders.enumeration %}{{ orders.enumeration|slice:"255"|escape }}{% else %} ---{% endif %}</li>
-      </ul>
-    </div>
+    
+    <div class="row mt-3">
+      <div class="col-12 col-md-6">
+        <h2>Информация о заказе</h2>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">Клиент: {% if client %}{{ client.FIO }}{% else %} ---{% endif %}</li>
+          <li class="list-group-item">Ячейка: {% if cell %}{{ cell.number }} {{ cell.size }}{% else %} ---{% endif %}</li>
+          <li class="list-group-item">Тариф: {% if tariff %}{{ tariff.title }}{% else %} ---{% endif %}</li>
+          <li class="list-group-item">Длительность: {{ orders.duration }} дней</li>
+          <li class="list-group-item">Расчетная цена: {{ orders.prise|floatformat:2 }}</li>
+          <li class="list-group-item">Перепись содержимого: {% if orders.enumeration %}{{ orders.enumeration|slice:"255"|escape }}{% else %} ---{% endif %}</li>
+        </ul>
+      </div>
 
-    <div class="col-12 col-md-6">
-      <h2>Основная информация</h2>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item">Номер заказа: {{ orders.id }}</li>
-        <li class="list-group-item">Дата создания: {{ orders.start|date:"d.M.y" }}</li>
-        <li class="list-group-item">Дата завершения: {{ orders.end|date:"d.M.y" }}</li>
-      </ul>
+      <div class="col-12 col-md-6">
+        <h2>Основная информация</h2>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">Номер заказа: {{ orders.id }}</li>
+          <li class="list-group-item">Дата создания: {{ orders.start|date:"d.M.y" }}</li>
+          <li class="list-group-item">Дата завершения: {{ orders.end|date:"d.M.y" }}</li>
+        </ul>
+      </div>
     </div>
-  </div>
+  {% else %}
+    Для продолжения работы в системе, пожалуйста, войдите в аккаунт. Для получения новой учетной записи обратитесь к администратору
+  {% endif %}
 {% endblock %}

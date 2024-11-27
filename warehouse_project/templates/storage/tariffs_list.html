@@ -5,37 +5,41 @@
 {% endblock %}
 
 {% block content %}
-<div class="row align-items-center">
-  <div class="col-md-10">
-    <h1 class="pb-2 mb-0">Список тарифов</h1>
-  </div>
-  <div class="col-md-2 text-right">
-    <a href="{% url 'tariffs:create' %}" class="btn btn-primary">Добавить тариф</a>
-  </div>
-</div>
-  
-  <div class="row">
-    <div class="col-md-12">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">Название</th>
-            <th scope="col">Размер ячейки</th>
-            <th scope="col">Длительность</th>
-            <th scope="col">Стоимость</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for tariff in tariffs_list %}
-            <tr>
-              <td><a href="{% url 'tariffs:detail' tariff.id %}">{{ tariff.title }}</a></td>
-              <td>{{ tariff.size_cell }}</td>
-              <td>{{ tariff.period }} дней</td>
-              <td>{{ tariff.cost|floatformat:2 }} {{ tariff.cost.currency }}</td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+{% if user.is_authenticated %}
+  <div class="row align-items-center">
+    <div class="col-md-10">
+      <h1 class="pb-2 mb-0">Список тарифов</h1>
+    </div>
+    <div class="col-md-2 text-right">
+      <a href="{% url 'tariffs:create' %}" class="btn btn-primary">Добавить тариф</a>
     </div>
   </div>
+    
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Название</th>
+              <th scope="col">Размер ячейки</th>
+              <th scope="col">Длительность</th>
+              <th scope="col">Стоимость</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for tariff in tariffs_list %}
+              <tr>
+                <td><a href="{% url 'tariffs:detail' tariff.id %}">{{ tariff.title }}</a></td>
+                <td>{{ tariff.size_cell }}</td>
+                <td>{{ tariff.period }} дней</td>
+                <td>{{ tariff.cost|floatformat:2 }} {{ tariff.cost.currency }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  {% else %}
+    Для продолжения работы в системе, пожалуйста, войдите в аккаунт. Для получения новой учетной записи обратитесь к администратору
+  {% endif %}
 {% endblock %}

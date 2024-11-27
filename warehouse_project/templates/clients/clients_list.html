@@ -5,33 +5,37 @@
 {% endblock %}
 
 {% block content %}
-  <div class="row align-items-center">
-    <div class="col-md-10">
-      <h1 class="pb-2 mb-0">Список клиентов</h1>
+  {% if user.is_authenticated %}
+    <div class="row align-items-center">
+      <div class="col-md-10">
+        <h1 class="pb-2 mb-0">Список клиентов</h1>
+      </div>
+      <div class="col-md-2 text-right">
+        <a href="{% url 'clients:create' %}" class="btn btn-primary">Добавить клиента</a>
+      </div>
     </div>
-    <div class="col-md-2 text-right">
-      <a href="{% url 'clients:create' %}" class="btn btn-primary">Добавить клиента</a>
-    </div>
-  </div>
-  
-  <div class="row">
-    <div class="col-md-12">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">Почта</th>
-            <th scope="col">ФИО</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for client in clients_list %}
+    
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table table-striped">
+          <thead>
             <tr>
-              <td><a href="{% url 'clients:detail' client.id %}">{{ client.email }}</a></td>
-              <td>{{ client.FIO }}</td>
+              <th scope="col">Почта</th>
+              <th scope="col">ФИО</th>
             </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {% for client in clients_list %}
+              <tr>
+                <td><a href="{% url 'clients:detail' client.id %}">{{ client.email }}</a></td>
+                <td>{{ client.FIO }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
+  {% else %}
+    Для продолжения работы в системе, пожалуйста, войдите в аккаунт. Для получения новой учетной записи обратитесь к администратору
+  {% endif %}
 {% endblock %}

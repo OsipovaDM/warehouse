@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'homepage.apps.HomepageConfig',
     'storage.apps.StorageConfig',
     'django.contrib.admin',
-    'django.contrib.auth',
+    'django.contrib.auth',  # Приложение для работы с пользователями.
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -137,3 +137,12 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Подключаем бэкенд filebased.EmailBackend:
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+# Указываем директорию, в которую будут сохраняться файлы писем:
+EMAIL_FILE_PATH = BASE_DIR / 'sent_emails'
+# При входе в систему перенаправлять пользователя на главную страницу
+LOGIN_REDIRECT_URL = 'homepage:index'
+# Страница по умолчанию для аунтефикации
+LOGIN_URL = 'login'

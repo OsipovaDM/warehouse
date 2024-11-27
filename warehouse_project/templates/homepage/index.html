@@ -2,39 +2,44 @@
 {% load static %}
 {% block title %}Главная{% endblock %}
 {% block content %}
+{% if user.is_authenticated %}
     <div class="row align-items-center">
-        <div class="col-md-12">
-            <h1 class="pb-2 mb-0">Калькуляция доходов и рачет статистики</h1>
-        </div>
+      <div class="col-md-12">
+        <h1 class="pb-2 mb-0">Калькуляция доходов и рачет статистики</h1>
+      </div>
     </div>
 
     <div class="row mt-3">
-        <div class="col-12 col-md-6">
-          <h2>Последний месяц</h2>
-          {% if last_orders %}
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">Заказы: {{ last_orders }}</li>
-              <li class="list-group-item">Самый популярный тариф: {{ last_tariff }}</li>
-              <li class="list-group-item">Самый востребованный размер ячеек: {{ last_size }}</li>
-              <li class="list-group-item">Общая прибыль составила: {{ last_cost }}</li>
-            </ul>
-          {% else %}
-            <p>За последний месяц заказов не было.</p>
-          {% endif %}
-        </div>
+      <div class="col-12 col-md-6">
+        <h2>Последний месяц</h2>
+        {% if last_orders %}
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">Заказы: {{ last_orders }}</li>
+          <li class="list-group-item">Самый популярный тариф: {{ last_tariff }}</li>
+          <li class="list-group-item">Самый востребованный размер ячеек: {{ last_size }}</li>
+          <li class="list-group-item">Общая прибыль составила: {{ last_cost }}</li>
+        </ul>
+        {% else %}
+          <p>За последний месяц заказов не было.</p>
+        {% endif %}
+      </div>
 
-        <div class="col-12 col-md-6">
-            <h2>Все время</h2>
-            {% if all_orders %}
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item">Заказы: {{ all_orders }}</li>
-                <li class="list-group-item">Самый популярный тариф: {{ all_tariff }}</li>
-                <li class="list-group-item">Самый востребованный размер ячеек: {{ all_size }}</li>
-                <li class="list-group-item">Общая прибыль составила: {{ all_cost }}</li>
-                <li class="list-group-item">Всего клиентов: {{ client_count }}</li>
-              </ul>
-            {% else %}
-              <p>Заказов не зарегистрировано.</p>
-            {% endif %}
-          </div>
+      <div class="col-12 col-md-6">
+        <h2>Все время</h2>
+        {% if all_orders %}
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Заказы: {{ all_orders }}</li>
+            <li class="list-group-item">Самый популярный тариф: {{ all_tariff }}</li>
+            <li class="list-group-item">Самый востребованный размер ячеек: {{ all_size }}</li>
+            <li class="list-group-item">Общая прибыль составила: {{ all_cost }}</li>
+            <li class="list-group-item">Всего клиентов: {{ client_count }}</li>
+          </ul>
+        {% else %}
+          <p>Заказов не зарегистрировано.</p>
+        {% endif %}
+      </div>
+    </div>
+  {% else %}
+    Для продолжения работы в системе, пожалуйста, войдите в аккаунт. Для получения новой учетной записи обратитесь к администратору
+  {% endif %}
 {% endblock %}

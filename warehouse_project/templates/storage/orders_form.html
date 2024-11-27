@@ -6,43 +6,47 @@
 {% endblock %}
 
 {% block content %}
-  {% with data=order %}
-    {% if '/edit/' in request.path %}
-      <h2>Редактировать заказ {{ data.id }}</h2>
-    {% elif "/delete/" in request.path %}
-      <h2>Удалить заказ {{ object.id }}</h2>
-    {% else %}
-      <h2>Создать новый заказ</h2>
-    {% endif %}
-    <div class="card col-4">
-      <div class="card-header">
-        Настройка заказа
+{% if user.is_authenticated %}
+    {% with data=order %}
+      {% if '/edit/' in request.path %}
+        <h2>Редактировать заказ {{ data.id }}</h2>
+      {% elif "/delete/" in request.path %}
+        <h2>Удалить заказ {{ object.id }}</h2>
+      {% else %}
+        <h2>Создать новый заказ</h2>
+      {% endif %}
+      <div class="card col-4">
+        <div class="card-header">
+          Настройка заказа
+        </div>
+        <div class="card-body">
+          <form method="post">
+            {% csrf_token %}
+            {% if not "/delete/" in request.path %}
+              {% bootstrap_form form %}
+            {% else %}
+              <p>Клиент: {{ object.client }}</p>
+              <p>Ячейка: {{ object.cell }}</p>
+              <p>Тариф: {{ object.tariff }}</p>
+              <p>Длительность: {{ object.duration }} дней</p>
+              <p>Перепись содержимого: {{ object.enumeration }}</p>
+              <p>Расчетная цена: {{ object.prise }}</p>
+              <p>Дата создания: {{ object.start }}</p>
+              <p>Дата завершения: {{ object.end }}</p>
+            {% endif %}
+            {% bootstrap_button button_type="submit" content="Готово" %}
+          </form>
+        </div>
       </div>
-      <div class="card-body">
-        <form method="post">
-          {% csrf_token %}
-          {% if not "/delete/" in request.path %}
-            {% bootstrap_form form %}
-          {% else %}
-            <p>Клиент: {{ object.client }}</p>
-            <p>Ячейка: {{ object.cell }}</p>
-            <p>Тариф: {{ object.tariff }}</p>
-            <p>Длительность: {{ object.duration }} дней</p>
-            <p>Перепись содержимого: {{ object.enumeration }}</p>
-            <p>Расчетная цена: {{ object.prise }}</p>
-            <p>Дата создания: {{ object.start }}</p>
-            <p>Дата завершения: {{ object.end }}</p>
-          {% endif %}
-          {% bootstrap_button button_type="submit" content="Готово" %}
-        </form>
-      </div>
+      {% if form.is_valid %}
+        <h2>Заказ {{ data.id }} успешно зарегистрирован в системе!</h2>
+      {% endif %}
+    {% endwith %}
+    <hr>
+    <div>
+      <a href="{% url 'orders:list' %}">Список всех заказов</a>
     </div>
-    {% if form.is_valid %}
-      <h2>Заказ {{ data.id }} успешно зарегистрирован в системе!</h2>
-    {% endif %}
-  {% endwith %}
-  <hr>
-  <div>
-    <a href="{% url 'orders:list' %}">Список всех заказов</a>
-  </div>
+  {% else %}
+    Для продолжения работы в системе, пожалуйста, войдите в аккаунт. Для получения новой учетной записи обратитесь к администратору
+  {% endif %}
 {% endblock %}

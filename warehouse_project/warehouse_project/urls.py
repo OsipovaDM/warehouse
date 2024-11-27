@@ -17,7 +17,10 @@ from django.contrib import admin
 from django.urls import include, path
 
 urlpatterns = [
+    # Приложения для работы с админ зоной
     path('admin/', admin.site.urls),
+    # Приложения для работы с пользователями
+    path('auth/', include('django.contrib.auth.urls')),
     path('', include('homepage.urls')),
     path('cells/', include('cells.urls')),
     path('clients/', include('clients.urls')),

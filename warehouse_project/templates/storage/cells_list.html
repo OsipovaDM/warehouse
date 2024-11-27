@@ -5,33 +5,37 @@
 {% endblock %}
 
 {% block content %}
-  <div class="row align-items-center">
-    <div class="col-md-10">
-      <h1 class="pb-2 mb-0">Список ячеек</h1>
+{% if user.is_authenticated %}
+    <div class="row align-items-center">
+      <div class="col-md-10">
+        <h1 class="pb-2 mb-0">Список ячеек</h1>
+      </div>
+      <div class="col-md-2 text-right">
+        <a href="{% url 'cells:create' %}" class="btn btn-primary">Добавить ячейку</a>
+      </div>
     </div>
-    <div class="col-md-2 text-right">
-      <a href="{% url 'cells:create' %}" class="btn btn-primary">Добавить ячейку</a>
-    </div>
-  </div>
-  
-  <div class="row">
-    <div class="col-md-12">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">Номер</th>
-            <th scope="col">Размер</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for cell in cells_list %}
+    
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table table-striped">
+          <thead>
             <tr>
-              <td><a href="{% url 'cells:detail' cell.id %}">{{ cell.number }}</a></td>
-              <td>{{ cell.size }}</td>
+              <th scope="col">Номер</th>
+              <th scope="col">Размер</th>
             </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {% for cell in cells_list %}
+              <tr>
+                <td><a href="{% url 'cells:detail' cell.id %}">{{ cell.number }}</a></td>
+                <td>{{ cell.size }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
+  {% else %}
+    Для продолжения работы в системе, пожалуйста, войдите в аккаунт. Для получения новой учетной записи обратитесь к администратору
+  {% endif %}
 {% endblock %}

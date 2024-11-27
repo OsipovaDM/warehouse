@@ -5,35 +5,39 @@
 {% endblock %}
 
 {% block content %}
-  <div class="row align-items-center">
-    <div class="col-md-8">
-      <h1 class="pb-2 mb-0">Тариф {{ tariffs.title }}</h1>
+{% if user.is_authenticated %}
+    <div class="row align-items-center">
+      <div class="col-md-8">
+        <h1 class="pb-2 mb-0">Тариф {{ tariffs.title }}</h1>
+      </div>
+      <div class="col-md-2 text-right">
+        <a href="{% url 'tariffs:edit' tariffs.id %}" class="btn btn-primary">Редактировать тариф</a>
+      </div>
+      <div class="col-md-2 text-right">
+        <a href="{% url 'tariffs:delete' tariffs.id %}" class="btn btn-primary">Удалить тариф</a>
+      </div>
     </div>
-    <div class="col-md-2 text-right">
-      <a href="{% url 'tariffs:edit' tariffs.id %}" class="btn btn-primary">Редактировать тариф</a>
-    </div>
-    <div class="col-md-2 text-right">
-      <a href="{% url 'tariffs:delete' tariffs.id %}" class="btn btn-primary">Удалить тариф</a>
-    </div>
-  </div>
-  
-  <div class="row mt-3">
-    <div class="col-12 col-md-6">
-      <h2>Заказы</h2>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item">Активные заказы по данному тарифу: {{ active_orders_count }}</li>
-        <li class="list-group-item">Созданные заказы за последний месяц: {{ created_orders_last_month }}</li>
-        <li class="list-group-item">Созданные заказы за все время: {{ created_orders_all }}</li>
-      </ul>
-    </div>
-
-    <div class="col-12 col-md-6">
-        <h2>Основная информация</h2>
+    
+    <div class="row mt-3">
+      <div class="col-12 col-md-6">
+        <h2>Заказы</h2>
         <ul class="list-group list-group-flush">
-          <li class="list-group-item">Название: {{ tariffs.title }}</li>
-          <li class="list-group-item">Размер ячейки: {{ tariffs.size_cell }}</li>
-          <li class="list-group-item">Длительность: {{ tariffs.period }} дней</li>
+          <li class="list-group-item">Активные заказы по данному тарифу: {{ active_orders_count }}</li>
+          <li class="list-group-item">Созданные заказы за последний месяц: {{ created_orders_last_month }}</li>
+          <li class="list-group-item">Созданные заказы за все время: {{ created_orders_all }}</li>
         </ul>
-      </div>  
-  </div>
+      </div>
+
+      <div class="col-12 col-md-6">
+          <h2>Основная информация</h2>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Название: {{ tariffs.title }}</li>
+            <li class="list-group-item">Размер ячейки: {{ tariffs.size_cell }}</li>
+            <li class="list-group-item">Длительность: {{ tariffs.period }} дней</li>
+          </ul>
+        </div>  
+    </div>
+  {% else %}
+    Для продолжения работы в системе, пожалуйста, войдите в аккаунт. Для получения новой учетной записи обратитесь к администратору
+  {% endif %}
 {% endblock %}
