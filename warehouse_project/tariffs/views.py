@@ -55,5 +55,5 @@ class TariffsDeleteView(TariffsMixin, DeleteView):
 
 class TariffsListView(ListView):
     model = Tariffs
-    ordering = 'id'
+    # ordering = 'id'
     # paginate_by = 10

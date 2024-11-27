@@ -41,5 +41,5 @@ class CellsDeleteView(CellsMixin, DeleteView):
 
 class CellsListView(ListView):
     model = Cells
-    ordering = 'id'
+    # ordering = 'id'
     # paginate_by = 10
