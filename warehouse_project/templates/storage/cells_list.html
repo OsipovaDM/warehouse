@@ -10,9 +10,11 @@
       <div class="col-md-10">
         <h1 class="pb-2 mb-0">Список ячеек</h1>
       </div>
-      <div class="col-md-2 text-right">
-        <a href="{% url 'cells:create' %}" class="btn btn-primary">Добавить ячейку</a>
-      </div>
+      {% if user.is_superuser %}
+        <div class="col-md-2 text-right">
+          <a href="{% url 'cells:create' %}" class="btn btn-primary">Добавить ячейку</a>
+        </div>
+      {% endif %}
     </div>
     
     <div class="row">

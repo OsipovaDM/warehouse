@@ -13,9 +13,11 @@
       <div class="col-md-2 text-right">
         <a href="{% url 'orders:edit' orders.id %}" class="btn btn-primary">Редактировать заказ</a>
       </div>
-      <div class="col-md-2 text-right">
-        <a href="{% url 'orders:delete' orders.id %}" class="btn btn-primary">Удалить заказ</a>
-      </div>
+      {% if user.is_superuser %}
+        <div class="col-md-2 text-right">
+          <a href="{% url 'orders:delete' orders.id %}" class="btn btn-primary">Удалить заказ</a>
+        </div>
+      {% endif %}
     </div>
     
     <div class="row mt-3">

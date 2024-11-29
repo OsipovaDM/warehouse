@@ -50,6 +50,7 @@ class TariffsUpdateView(TariffsMixin, UpdateView):
 
 
 class TariffsDeleteView(TariffsMixin, DeleteView):
+    template_name = 'storage/tariffs_form.html'
     pass
 
 

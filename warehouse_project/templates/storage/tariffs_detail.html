@@ -10,12 +10,14 @@
       <div class="col-md-8">
         <h1 class="pb-2 mb-0">Тариф {{ tariffs.title }}</h1>
       </div>
-      <div class="col-md-2 text-right">
-        <a href="{% url 'tariffs:edit' tariffs.id %}" class="btn btn-primary">Редактировать тариф</a>
-      </div>
-      <div class="col-md-2 text-right">
-        <a href="{% url 'tariffs:delete' tariffs.id %}" class="btn btn-primary">Удалить тариф</a>
-      </div>
+      {% if user.is_superuser %}
+        <div class="col-md-2 text-right">
+          <a href="{% url 'tariffs:edit' tariffs.id %}" class="btn btn-primary">Редактировать тариф</a>
+        </div>
+        <div class="col-md-2 text-right">
+          <a href="{% url 'tariffs:delete' tariffs.id %}" class="btn btn-primary">Удалить тариф</a>
+        </div>
+      {% endif %}
     </div>
     
     <div class="row mt-3">

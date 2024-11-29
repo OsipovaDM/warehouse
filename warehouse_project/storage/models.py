@@ -9,7 +9,7 @@ from django.db.models import Q
 class Tariffs(models.Model):
     title = models.CharField(
         'Название',
-        max_length=9,
+        max_length=31,
         unique=True,
     )
     size_cell = models.CharField(

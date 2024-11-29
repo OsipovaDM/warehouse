@@ -17,14 +17,18 @@ from django.contrib import admin
 from django.urls import include, path
 
 urlpatterns = [
-    # Приложения для работы с админ зоной
+    # Приложение для работы с админ зоной
     path('admin/', admin.site.urls),
     # Приложения для работы с пользователями
     path('auth/', include('django.contrib.auth.urls')),
+    # Приложение для главной страницы
     path('', include('homepage.urls')),
+    # Приложение для работы с ячейками
     path('cells/', include('cells.urls')),
+    # Приложение для работы с клиентами
     path('clients/', include('clients.urls')),
+    # Приложение для работы с пользователями
     path('orders/', include('orders.urls')),
+    # Приложение для работы с тарифами
     path('tariffs/', include('tariffs.urls')),
-    path('auth/', include('django.contrib.auth.urls')),
 ]

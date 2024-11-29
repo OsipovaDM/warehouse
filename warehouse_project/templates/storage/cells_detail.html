@@ -10,12 +10,14 @@
       <div class="col-md-8">
         <h1 class="pb-2 mb-0">Ячейка {{ cells.number }}</h1>
       </div>
-      <div class="col-md-2 text-right">
-        <a href="{% url 'cells:edit' cells.id %}" class="btn btn-primary">Редактировать ячейку</a>
-      </div>
-      <div class="col-md-2 text-right">
-        <a href="{% url 'cells:delete' cells.id %}" class="btn btn-primary">Удалить ячейку</a>
-      </div>
+      {% if user.is_superuser %}
+        <div class="col-md-2 text-right">
+          <a href="{% url 'cells:edit' cells.id %}" class="btn btn-primary">Редактировать ячейку</a>
+        </div>
+        <div class="col-md-2 text-right">
+          <a href="{% url 'cells:delete' cells.id %}" class="btn btn-primary">Удалить ячейку</a>
+        </div>
+      {% endif %}
     </div>
     
     <div class="row mt-3">
